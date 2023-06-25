@@ -64,6 +64,10 @@ Creating a space for the harvard community to find Meditation easily and for fre
 - Code is reviewed
 - Story is tested
 
+## Whole Team Relative-size Estimates: 
+met for 6 hours to dicuss product vision & user 
+story and we came up with the 51 Story Points 
+
 ### **Developers participate in estimating:**
 - Kamsi
 - Bill
