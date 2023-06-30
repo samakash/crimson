@@ -1,54 +1,161 @@
-<div class="row">
-  <div class="col-md-3">
-    <span class="hipster img-fluid rounded"></span>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crimson-Calm</title>
+<!--  <link rel="stylesheet" href="styles.css">-->
+  <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #f5f5f5;
+}
+
+h1, h2, h3 {
+    margin-bottom: 1.5rem;
+}
+
+.header {
+    background: linear-gradient(135deg, #990000, #440000);
+    padding: 1.5rem;
+    color: #fff;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 100px;
+    width: 100px;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+}
+
+.nav-menu li {
+    margin-left: 1.5rem;
+}
+
+.hero {
+    text-align: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.cta {
+    display: inline-block;
+    background-color: #660000;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    margin-top: 1.5rem;
+    transition: background-color 0.2s;
+}
+
+.cta:hover {
+    background-color: #440000;
+}
+
+#features {
+    padding: 3rem;
+    background-color: #f5f5f5;
+}
+
+#features h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.feature-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.feature {
+    width: 30%;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.footer {
+    background-color: #f5f5f5;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    .feature-list {
+        flex-direction: column;
+    }
+
+    .feature {
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <nav class="nav">
+    <div class="logo">
+      <img src="logo.png" alt="Crimson-Calm Logo">
+    </div>
+    <ul class="nav-menu">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#mood">Mood Today</a></li>
+      <li><a href="#contact">Contact Info</a></li>
+      <li><a href="#account">My Profile</a></li>
+    </ul>
+  </nav>
+  <div class="hero">
+    <h1>Welcome to Crimson-Calm </h1>
+    <p>Discover the power of meditation to alleviate anxiety, stress, and enhance your mental well-being exclusively serving for Harvard and Cambridge Community.</p>
+    <a href="#login" class="cta">Login</a>
+    <a href="#signup" class="cta">Sign Up</a>
   </div>
-
-  <div class="col-md-9">
-    <h1 class="display-4"><span>Welcome, Java Hipster!</span> (Crimson)</h1>
-
-    <p class="lead">This is your homepage</p>
-
-    <div [ngSwitch]="account !== null">
-      <div class="alert alert-success" *ngSwitchCase="true">
-        <span id="home-logged-message" *ngIf="account">You are logged in as user "{{ account.login }}".</span>
+</header>
+<main>
+  <section id="features">
+    <h2>Our Features</h2>
+    <div class="feature-list">
+      <div class="feature">
+        <h3>Group Activity</h3>
+        <p>Join our scheduled group sessions and feel the sense of community. View, Like, Create Events</p>
       </div>
-
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>If you want to </span>
-        <a class="alert-link" (click)="login()">sign in</a
-        ><span
-          >, you can try the default accounts:<br />- Administrator (login="admin" and password="admin") <br />- User (login="user" and
-          password="user").</span
-        >
+      <div class="feature">
+        <h3>Scheduling and Reminder</h3>
+        <p>Schedule your meditation sessions and never miss them with our integrated reminders.</p>
       </div>
-
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span>You don't have an account yet?</span>&nbsp;
-        <a class="alert-link" routerLink="account/register">Register a new account</a>
+      <div class="feature">
+        <h3>Progress Tracking</h3>
+        <p>Track your moods and meditation progress. See your completed sessions and mood trends over time.</p>
       </div>
     </div>
+  </section>
+</main>
 
-    <p>If you have any question on JHipster:</p>
-
-    <ul>
-      <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">JHipster homepage</a></li>
-      <li>
-        <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">JHipster on Stack Overflow</a>
-      </li>
-      <li>
-        <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer"
-          >JHipster bug tracker</a
-        >
-      </li>
-      <li>
-        <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">JHipster public chat room</a>
-      </li>
-      <li><a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">follow @jhipster on Twitter</a></li>
-    </ul>
-
-    <p>
-      <span>If you like JHipster, don't forget to give us a star on</span>
-      <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">GitHub</a>!
-    </p>
-  </div>
-</div>
+<footer class="footer">
+  <p>&copy; Crimson-Calm 2023. All rights reserved.</p>
+</footer>
+</body>
+</html>

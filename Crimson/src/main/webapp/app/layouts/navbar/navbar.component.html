@@ -1,9 +1,9 @@
-<nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-primary">
+<nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-primary" >
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <span class="navbar-title">Crimson</span>
-      <span class="navbar-version">{{ version }}</span>
+      <span class="navbar-title">Crimson Calm</span>
+      <span class="navbar-version">v0.1</span>
     </a>
     <a
       class="navbar-toggler d-lg-none"
@@ -29,7 +29,7 @@
         </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
-          *ngSwitchCase="true"
+          *jhiHasAnyAuthority="'ROLE_ADMIN'"
           ngbDropdown
           class="nav-item dropdown pointer"
           display="dynamic"
@@ -39,7 +39,7 @@
           <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
             <span>
               <fa-icon icon="th-list"></fa-icon>
-              <span>Entities</span>
+              <span>Menu</span>
             </span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
