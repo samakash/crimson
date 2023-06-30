@@ -89,7 +89,7 @@
           </td>
           <td>
             <div *ngIf="meditationSession.meditation">
-              <a [routerLink]="['/meditation', meditationSession.meditation.id, 'view']">{{ meditationSession.meditation.name }}</a>
+              <a [routerLink]="['/mood', meditationSession.meditation.id, 'view']">{{ meditationSession.meditation.name }}</a>
             </div>
           </td>
           <td class="text-end">

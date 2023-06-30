@@ -12,8 +12,8 @@ import { IMeditationSession } from '../meditation-session.model';
 
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
-import { IMeditation } from 'app/entities/meditation/meditation.model';
-import { MeditationService } from 'app/entities/meditation/service/meditation.service';
+import { IMood } from 'app/entities/mood/mood.model';
+import { MoodService } from 'app/entities/mood/service/mood.service';
 
 import { MeditationSessionUpdateComponent } from './meditation-session-update.component';
 
@@ -24,7 +24,7 @@ describe('MeditationSession Management Update Component', () => {
   let meditationSessionFormService: MeditationSessionFormService;
   let meditationSessionService: MeditationSessionService;
   let userService: UserService;
-  let meditationService: MeditationService;
+  let moodService: MoodService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,7 +48,7 @@ describe('MeditationSession Management Update Component', () => {
     meditationSessionFormService = TestBed.inject(MeditationSessionFormService);
     meditationSessionService = TestBed.inject(MeditationSessionService);
     userService = TestBed.inject(UserService);
-    meditationService = TestBed.inject(MeditationService);
+    moodService = TestBed.inject(MoodService);
 
     comp = fixture.componentInstance;
   });
@@ -76,40 +76,40 @@ describe('MeditationSession Management Update Component', () => {
       expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Meditation query and add missing value', () => {
+    it('Should call Mood query and add missing value', () => {
       const meditationSession: IMeditationSession = { id: 456 };
-      const meditation: IMeditation = { id: 45783 };
+      const meditation: IMood = { id: 18489 };
       meditationSession.meditation = meditation;
 
-      const meditationCollection: IMeditation[] = [{ id: 77384 }];
-      jest.spyOn(meditationService, 'query').mockReturnValue(of(new HttpResponse({ body: meditationCollection })));
-      const additionalMeditations = [meditation];
-      const expectedCollection: IMeditation[] = [...additionalMeditations, ...meditationCollection];
-      jest.spyOn(meditationService, 'addMeditationToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const moodCollection: IMood[] = [{ id: 8266 }];
+      jest.spyOn(moodService, 'query').mockReturnValue(of(new HttpResponse({ body: moodCollection })));
+      const additionalMoods = [meditation];
+      const expectedCollection: IMood[] = [...additionalMoods, ...moodCollection];
+      jest.spyOn(moodService, 'addMoodToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ meditationSession });
       comp.ngOnInit();
 
-      expect(meditationService.query).toHaveBeenCalled();
-      expect(meditationService.addMeditationToCollectionIfMissing).toHaveBeenCalledWith(
-        meditationCollection,
-        ...additionalMeditations.map(expect.objectContaining)
+      expect(moodService.query).toHaveBeenCalled();
+      expect(moodService.addMoodToCollectionIfMissing).toHaveBeenCalledWith(
+        moodCollection,
+        ...additionalMoods.map(expect.objectContaining)
       );
-      expect(comp.meditationsSharedCollection).toEqual(expectedCollection);
+      expect(comp.moodsSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const meditationSession: IMeditationSession = { id: 456 };
       const user: IUser = { id: 17805 };
       meditationSession.user = user;
-      const meditation: IMeditation = { id: 62311 };
+      const meditation: IMood = { id: 48401 };
       meditationSession.meditation = meditation;
 
       activatedRoute.data = of({ meditationSession });
       comp.ngOnInit();
 
       expect(comp.usersSharedCollection).toContain(user);
-      expect(comp.meditationsSharedCollection).toContain(meditation);
+      expect(comp.moodsSharedCollection).toContain(meditation);
       expect(comp.meditationSession).toEqual(meditationSession);
     });
   });
@@ -193,13 +193,13 @@ describe('MeditationSession Management Update Component', () => {
       });
     });
 
-    describe('compareMeditation', () => {
-      it('Should forward to meditationService', () => {
+    describe('compareMood', () => {
+      it('Should forward to moodService', () => {
         const entity = { id: 123 };
         const entity2 = { id: 456 };
-        jest.spyOn(meditationService, 'compareMeditation');
-        comp.compareMeditation(entity, entity2);
-        expect(meditationService.compareMeditation).toHaveBeenCalledWith(entity, entity2);
+        jest.spyOn(moodService, 'compareMood');
+        comp.compareMood(entity, entity2);
+        expect(moodService.compareMood).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

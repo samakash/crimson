@@ -56,12 +56,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="mood.id">
-            <div class="d-flex">
-              <span>Mood</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -73,11 +67,6 @@
           <td>{{ meditation.name }}</td>
           <td>{{ meditation.content }}</td>
           <td>{{ meditation.videoUrl }}</td>
-          <td>
-            <div *ngIf="meditation.mood">
-              <a [routerLink]="['/mood', meditation.mood.id, 'view']">{{ meditation.mood.id }}</a>
-            </div>
-          </td>
           <td class="text-end">
             <div class="btn-group">
               <button

@@ -21,7 +21,6 @@ type MeditationFormGroupContent = {
   name: FormControl<IMeditation['name']>;
   content: FormControl<IMeditation['content']>;
   videoUrl: FormControl<IMeditation['videoUrl']>;
-  mood: FormControl<IMeditation['mood']>;
 };
 
 export type MeditationFormGroup = FormGroup<MeditationFormGroupContent>;
@@ -50,7 +49,6 @@ export class MeditationFormService {
       videoUrl: new FormControl(meditationRawValue.videoUrl, {
         validators: [Validators.required, Validators.minLength(2)],
       }),
-      mood: new FormControl(meditationRawValue.mood),
     });
   }
 

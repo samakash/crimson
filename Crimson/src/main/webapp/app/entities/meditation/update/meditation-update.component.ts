@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import { MeditationFormService, MeditationFormGroup } from './meditation-form.service';
 import { IMeditation } from '../meditation.model';
@@ -10,8 +10,6 @@ import { MeditationService } from '../service/meditation.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IMood } from 'app/entities/mood/mood.model';
-import { MoodService } from 'app/entities/mood/service/mood.service';
 
 @Component({
   selector: 'jhi-meditation-update',
@@ -21,8 +19,6 @@ export class MeditationUpdateComponent implements OnInit {
   isSaving = false;
   meditation: IMeditation | null = null;
 
-  moodsSharedCollection: IMood[] = [];
-
   editForm: MeditationFormGroup = this.meditationFormService.createMeditationFormGroup();
 
   constructor(
@@ -30,11 +26,8 @@ export class MeditationUpdateComponent implements OnInit {
     protected eventManager: EventManager,
     protected meditationService: MeditationService,
     protected meditationFormService: MeditationFormService,
-    protected moodService: MoodService,
     protected activatedRoute: ActivatedRoute
   ) {}
-
-  compareMood = (o1: IMood | null, o2: IMood | null): boolean => this.moodService.compareMood(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ meditation }) => {
@@ -42,8 +35,6 @@ export class MeditationUpdateComponent implements OnInit {
       if (meditation) {
         this.updateForm(meditation);
       }
-
-      this.loadRelationshipsOptions();
     });
   }
 
@@ -98,15 +89,5 @@ export class MeditationUpdateComponent implements OnInit {
   protected updateForm(meditation: IMeditation): void {
     this.meditation = meditation;
     this.meditationFormService.resetForm(this.editForm, meditation);
-
-    this.moodsSharedCollection = this.moodService.addMoodToCollectionIfMissing<IMood>(this.moodsSharedCollection, meditation.mood);
-  }
-
-  protected loadRelationshipsOptions(): void {
-    this.moodService
-      .query()
-      .pipe(map((res: HttpResponse<IMood[]>) => res.body ?? []))
-      .pipe(map((moods: IMood[]) => this.moodService.addMoodToCollectionIfMissing<IMood>(moods, this.meditation?.mood)))
-      .subscribe((moods: IMood[]) => (this.moodsSharedCollection = moods));
   }
 }

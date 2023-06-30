@@ -147,12 +147,21 @@ public class MoodResource {
      * {@code GET  /moods} : get all the moods.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of moods in body.
      */
     @GetMapping("/moods")
-    public ResponseEntity<List<Mood>> getAllMoods(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<Mood>> getAllMoods(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload
+    ) {
         log.debug("REST request to get a page of Moods");
-        Page<Mood> page = moodRepository.findAll(pageable);
+        Page<Mood> page;
+        if (eagerload) {
+            page = moodRepository.findAllWithEagerRelationships(pageable);
+        } else {
+            page = moodRepository.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -166,7 +175,7 @@ public class MoodResource {
     @GetMapping("/moods/{id}")
     public ResponseEntity<Mood> getMood(@PathVariable Long id) {
         log.debug("REST request to get Mood : {}", id);
-        Optional<Mood> mood = moodRepository.findById(id);
+        Optional<Mood> mood = moodRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(mood);
     }
 

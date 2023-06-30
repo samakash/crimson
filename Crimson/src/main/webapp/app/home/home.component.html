@@ -121,10 +121,12 @@ h1, h2, h3 {
       <img src="logo.png" alt="Crimson-Calm Logo">
     </div>
     <ul class="nav-menu">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#mood">Mood Today</a></li>
-      <li><a href="#contact">Contact Info</a></li>
-      <li><a href="#account">My Profile</a></li>
+      <li><a routerLink="/">Home</a></li>
+      <li><a routerLink="mood"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{ exact: true }">Mood Today</a></li>
+      <li><a routerLink="/contact">Contact Info</a></li>
+      <li><a routerLink="/account/settings">My Profile</a></li>
     </ul>
   </nav>
   <div class="hero" [ngSwitch]="account !== null">
@@ -134,7 +136,7 @@ h1, h2, h3 {
       <span id="home-logged-message" *ngIf="account">Welcome Back! You are logged in as user "{{ account.login }}".</span>
     </div>
     <a (click)="login()" id="login" data-cy="login" class="cta" *ngSwitchCase="false">Login</a>
-    <a routerLink="account/register" routerLinkActive="active" data-cy="register"href="#signup" class="cta" *ngSwitchCase="false">Sign Up</a>
+    <a routerLink="account/register" routerLinkActive="active" data-cy="register" class="cta" *ngSwitchCase="false">Sign Up</a>
   </div>
 </header>
 <main>

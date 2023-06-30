@@ -18,6 +18,12 @@
         <dd>
           <span>{{ mood.name }}</span>
         </dd>
+        <dt><span>Meditation</span></dt>
+        <dd>
+          <div *ngIf="mood.meditation">
+            <a [routerLink]="['/meditation', mood.meditation.id, 'view']">{{ mood.meditation.name }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

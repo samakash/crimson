@@ -39,10 +39,6 @@ public class Meditation implements Serializable {
     @Column(name = "video_url", nullable = false)
     private String videoUrl;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "meditations" }, allowSetters = true)
-    private Mood mood;
-
     @OneToMany(mappedBy = "meditation")
     @JsonIgnoreProperties(value = { "meditation", "users" }, allowSetters = true)
     private Set<Event> events = new HashSet<>();
@@ -99,19 +95,6 @@ public class Meditation implements Serializable {
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
-    }
-
-    public Mood getMood() {
-        return this.mood;
-    }
-
-    public void setMood(Mood mood) {
-        this.mood = mood;
-    }
-
-    public Meditation mood(Mood mood) {
-        this.setMood(mood);
-        return this;
     }
 
     public Set<Event> getEvents() {

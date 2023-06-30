@@ -23,7 +23,6 @@ describe('Meditation Form Service', () => {
             name: expect.any(Object),
             content: expect.any(Object),
             videoUrl: expect.any(Object),
-            mood: expect.any(Object),
           })
         );
       });
@@ -37,7 +36,6 @@ describe('Meditation Form Service', () => {
             name: expect.any(Object),
             content: expect.any(Object),
             videoUrl: expect.any(Object),
-            mood: expect.any(Object),
           })
         );
       });

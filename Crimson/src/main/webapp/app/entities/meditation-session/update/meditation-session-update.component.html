@@ -70,12 +70,10 @@
             data-cy="meditation"
             name="meditation"
             formControlName="meditation"
-            [compareWith]="compareMeditation"
+            [compareWith]="compareMood"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="meditationOption" *ngFor="let meditationOption of meditationsSharedCollection">
-              {{ meditationOption.name }}
-            </option>
+            <option [ngValue]="moodOption" *ngFor="let moodOption of moodsSharedCollection">{{ moodOption.name }}</option>
           </select>
         </div>
       </div>

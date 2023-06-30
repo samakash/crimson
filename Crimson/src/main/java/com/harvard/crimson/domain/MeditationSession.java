@@ -40,8 +40,8 @@ public class MeditationSession implements Serializable {
     private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "mood", "events" }, allowSetters = true)
-    private Meditation meditation;
+    @JsonIgnoreProperties(value = { "meditation" }, allowSetters = true)
+    private Mood meditation;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -110,16 +110,16 @@ public class MeditationSession implements Serializable {
         return this;
     }
 
-    public Meditation getMeditation() {
+    public Mood getMeditation() {
         return this.meditation;
     }
 
-    public void setMeditation(Meditation meditation) {
-        this.meditation = meditation;
+    public void setMeditation(Mood mood) {
+        this.meditation = mood;
     }
 
-    public MeditationSession meditation(Meditation meditation) {
-        this.setMeditation(meditation);
+    public MeditationSession meditation(Mood mood) {
+        this.setMeditation(mood);
         return this;
     }
 

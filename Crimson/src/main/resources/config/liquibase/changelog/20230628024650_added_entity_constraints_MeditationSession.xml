@@ -18,6 +18,6 @@
                                  baseTableName="meditation_session"
                                  constraintName="fk_meditation_session__meditation_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="meditation"/>
+                                 referencedTableName="mood"/>
     </changeSet>
 </databaseChangeLog>

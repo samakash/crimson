@@ -43,7 +43,7 @@ public class Event implements Serializable {
     private String location;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "mood", "events" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "events" }, allowSetters = true)
     private Meditation meditation;
 
     @ManyToMany

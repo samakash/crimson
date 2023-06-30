@@ -9,6 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { MoodFormService } from './mood-form.service';
 import { MoodService } from '../service/mood.service';
 import { IMood } from '../mood.model';
+import { IMeditation } from 'app/entities/meditation/meditation.model';
+import { MeditationService } from 'app/entities/meditation/service/meditation.service';
 
 import { MoodUpdateComponent } from './mood-update.component';
 
@@ -18,6 +20,7 @@ describe('Mood Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let moodFormService: MoodFormService;
   let moodService: MoodService;
+  let meditationService: MeditationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,17 +43,43 @@ describe('Mood Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     moodFormService = TestBed.inject(MoodFormService);
     moodService = TestBed.inject(MoodService);
+    meditationService = TestBed.inject(MeditationService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call Meditation query and add missing value', () => {
       const mood: IMood = { id: 456 };
+      const meditation: IMeditation = { id: 68925 };
+      mood.meditation = meditation;
+
+      const meditationCollection: IMeditation[] = [{ id: 61290 }];
+      jest.spyOn(meditationService, 'query').mockReturnValue(of(new HttpResponse({ body: meditationCollection })));
+      const additionalMeditations = [meditation];
+      const expectedCollection: IMeditation[] = [...additionalMeditations, ...meditationCollection];
+      jest.spyOn(meditationService, 'addMeditationToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ mood });
       comp.ngOnInit();
 
+      expect(meditationService.query).toHaveBeenCalled();
+      expect(meditationService.addMeditationToCollectionIfMissing).toHaveBeenCalledWith(
+        meditationCollection,
+        ...additionalMeditations.map(expect.objectContaining)
+      );
+      expect(comp.meditationsSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const mood: IMood = { id: 456 };
+      const meditation: IMeditation = { id: 76125 };
+      mood.meditation = meditation;
+
+      activatedRoute.data = of({ mood });
+      comp.ngOnInit();
+
+      expect(comp.meditationsSharedCollection).toContain(meditation);
       expect(comp.mood).toEqual(mood);
     });
   });
@@ -120,6 +149,18 @@ describe('Mood Management Update Component', () => {
       expect(moodService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareMeditation', () => {
+      it('Should forward to meditationService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(meditationService, 'compareMeditation');
+        comp.compareMeditation(entity, entity2);
+        expect(meditationService.compareMeditation).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

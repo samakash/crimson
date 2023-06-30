@@ -21,6 +21,23 @@
             </small>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_meditation">Meditation</label>
+          <select
+            class="form-control"
+            id="field_meditation"
+            data-cy="meditation"
+            name="meditation"
+            formControlName="meditation"
+            [compareWith]="compareMeditation"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="meditationOption" *ngFor="let meditationOption of meditationsSharedCollection">
+              {{ meditationOption.name }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

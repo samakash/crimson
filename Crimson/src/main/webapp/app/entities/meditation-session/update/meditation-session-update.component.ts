@@ -12,8 +12,8 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
-import { IMeditation } from 'app/entities/meditation/meditation.model';
-import { MeditationService } from 'app/entities/meditation/service/meditation.service';
+import { IMood } from 'app/entities/mood/mood.model';
+import { MoodService } from 'app/entities/mood/service/mood.service';
 
 @Component({
   selector: 'jhi-meditation-session-update',
@@ -24,7 +24,7 @@ export class MeditationSessionUpdateComponent implements OnInit {
   meditationSession: IMeditationSession | null = null;
 
   usersSharedCollection: IUser[] = [];
-  meditationsSharedCollection: IMeditation[] = [];
+  moodsSharedCollection: IMood[] = [];
 
   editForm: MeditationSessionFormGroup = this.meditationSessionFormService.createMeditationSessionFormGroup();
 
@@ -34,13 +34,13 @@ export class MeditationSessionUpdateComponent implements OnInit {
     protected meditationSessionService: MeditationSessionService,
     protected meditationSessionFormService: MeditationSessionFormService,
     protected userService: UserService,
-    protected meditationService: MeditationService,
+    protected moodService: MoodService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
-  compareMeditation = (o1: IMeditation | null, o2: IMeditation | null): boolean => this.meditationService.compareMeditation(o1, o2);
+  compareMood = (o1: IMood | null, o2: IMood | null): boolean => this.moodService.compareMood(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ meditationSession }) => {
@@ -106,8 +106,8 @@ export class MeditationSessionUpdateComponent implements OnInit {
     this.meditationSessionFormService.resetForm(this.editForm, meditationSession);
 
     this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, meditationSession.user);
-    this.meditationsSharedCollection = this.meditationService.addMeditationToCollectionIfMissing<IMeditation>(
-      this.meditationsSharedCollection,
+    this.moodsSharedCollection = this.moodService.addMoodToCollectionIfMissing<IMood>(
+      this.moodsSharedCollection,
       meditationSession.meditation
     );
   }
@@ -119,14 +119,10 @@ export class MeditationSessionUpdateComponent implements OnInit {
       .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.meditationSession?.user)))
       .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
 
-    this.meditationService
+    this.moodService
       .query()
-      .pipe(map((res: HttpResponse<IMeditation[]>) => res.body ?? []))
-      .pipe(
-        map((meditations: IMeditation[]) =>
-          this.meditationService.addMeditationToCollectionIfMissing<IMeditation>(meditations, this.meditationSession?.meditation)
-        )
-      )
-      .subscribe((meditations: IMeditation[]) => (this.meditationsSharedCollection = meditations));
+      .pipe(map((res: HttpResponse<IMood[]>) => res.body ?? []))
+      .pipe(map((moods: IMood[]) => this.moodService.addMoodToCollectionIfMissing<IMood>(moods, this.meditationSession?.meditation)))
+      .subscribe((moods: IMood[]) => (this.moodsSharedCollection = moods));
   }
 }

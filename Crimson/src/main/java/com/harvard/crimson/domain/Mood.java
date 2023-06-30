@@ -2,8 +2,6 @@ package com.harvard.crimson.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -28,9 +26,9 @@ public class Mood implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "mood")
-    @JsonIgnoreProperties(value = { "mood", "events" }, allowSetters = true)
-    private Set<Meditation> meditations = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "events" }, allowSetters = true)
+    private Meditation meditation;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -60,34 +58,16 @@ public class Mood implements Serializable {
         this.name = name;
     }
 
-    public Set<Meditation> getMeditations() {
-        return this.meditations;
+    public Meditation getMeditation() {
+        return this.meditation;
     }
 
-    public void setMeditations(Set<Meditation> meditations) {
-        if (this.meditations != null) {
-            this.meditations.forEach(i -> i.setMood(null));
-        }
-        if (meditations != null) {
-            meditations.forEach(i -> i.setMood(this));
-        }
-        this.meditations = meditations;
+    public void setMeditation(Meditation meditation) {
+        this.meditation = meditation;
     }
 
-    public Mood meditations(Set<Meditation> meditations) {
-        this.setMeditations(meditations);
-        return this;
-    }
-
-    public Mood addMeditation(Meditation meditation) {
-        this.meditations.add(meditation);
-        meditation.setMood(this);
-        return this;
-    }
-
-    public Mood removeMeditation(Meditation meditation) {
-        this.meditations.remove(meditation);
-        meditation.setMood(null);
+    public Mood meditation(Meditation meditation) {
+        this.setMeditation(meditation);
         return this;
     }
 

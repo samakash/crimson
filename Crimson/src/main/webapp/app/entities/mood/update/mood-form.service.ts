@@ -19,6 +19,7 @@ type MoodFormDefaults = Pick<NewMood, 'id'>;
 type MoodFormGroupContent = {
   id: FormControl<IMood['id'] | NewMood['id']>;
   name: FormControl<IMood['name']>;
+  meditation: FormControl<IMood['meditation']>;
 };
 
 export type MoodFormGroup = FormGroup<MoodFormGroupContent>;
@@ -41,6 +42,7 @@ export class MoodFormService {
       name: new FormControl(moodRawValue.name, {
         validators: [Validators.required, Validators.minLength(2)],
       }),
+      meditation: new FormControl(moodRawValue.meditation),
     });
   }
 

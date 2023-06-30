@@ -2,7 +2,7 @@
   <h2 id="page-heading" data-cy="MoodHeading">
     <span>Moods</span>
 
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end" *jhiHasAnyAuthority="'ROLE_ADMIN'">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh list</span>
@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-mood"
         [routerLink]="['/mood/new']"
+        *jhiHasAnyAuthority="'ROLE_ADMIN'"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Create a new Mood </span>
@@ -32,7 +33,7 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
+          <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <div class="d-flex">
               <span>ID</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -40,7 +41,13 @@
           </th>
           <th scope="col" jhiSortBy="name">
             <div class="d-flex">
-              <span>Name</span>
+              <span>Moods</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="meditation.name">
+            <div class="d-flex">
+              <span>Meditation</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -54,11 +61,16 @@
         [infiniteScrollDistance]="0"
       >
         <tr *ngFor="let mood of moods; trackBy: trackId" data-cy="entityTable">
-          <td>
+          <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a [routerLink]="['/mood', mood.id, 'view']">{{ mood.id }}</a>
           </td>
           <td>{{ mood.name }}</td>
-          <td class="text-end">
+          <td>
+            <div *ngIf="mood.meditation">
+              <a [routerLink]="['/meditation', mood.meditation.id, 'view']">{{ mood.meditation.name }}</a>
+            </div>
+          </td>
+          <td class="text-end" *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/mood', mood.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
                 <fa-icon icon="eye"></fa-icon>
