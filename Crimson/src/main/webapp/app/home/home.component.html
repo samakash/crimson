@@ -127,11 +127,14 @@ h1, h2, h3 {
       <li><a href="#account">My Profile</a></li>
     </ul>
   </nav>
-  <div class="hero">
+  <div class="hero" [ngSwitch]="account !== null">
     <h1>Welcome to Crimson-Calm </h1>
     <p>Discover the power of meditation to alleviate anxiety, stress, and enhance your mental well-being exclusively serving for Harvard and Cambridge Community.</p>
-    <a href="#login" class="cta">Login</a>
-    <a href="#signup" class="cta">Sign Up</a>
+    <div *ngSwitchCase="true">
+      <span id="home-logged-message" *ngIf="account">Welcome Back! You are logged in as user "{{ account.login }}".</span>
+    </div>
+    <a (click)="login()" id="login" data-cy="login" class="cta" *ngSwitchCase="false">Login</a>
+    <a routerLink="account/register" routerLinkActive="active" data-cy="register"href="#signup" class="cta" *ngSwitchCase="false">Sign Up</a>
   </div>
 </header>
 <main>
