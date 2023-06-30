@@ -22,8 +22,8 @@
         <dd>
           <span>{{ meditation.content }}</span>
         </dd>
-        <dt><span>Video Url</span></dt>
-        <dd>
+        <dt *jhiHasAnyAuthority="'ROLE_ADMIN'"><span>Video Url</span></dt>
+        <dd *jhiHasAnyAuthority="'ROLE_ADMIN'">
           <span>{{ meditation.videoUrl }}</span>
         </dd>
         <dt><span>Video Player</span></dt>
