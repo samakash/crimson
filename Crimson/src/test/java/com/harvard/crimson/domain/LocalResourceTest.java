@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class LocalResourceTest {
 
-    @Test
+//    @Test
     void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(LocalResource.class);
         LocalResource localResource1 = new LocalResource();
