@@ -1,5 +1,6 @@
 package com.harvard.crimson.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
@@ -37,6 +38,10 @@ public class MeditationSession implements Serializable {
 
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "meditation" }, allowSetters = true)
+    private Mood meditation;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -102,6 +107,19 @@ public class MeditationSession implements Serializable {
 
     public MeditationSession user(User user) {
         this.setUser(user);
+        return this;
+    }
+
+    public Mood getMeditation() {
+        return this.meditation;
+    }
+
+    public void setMeditation(Mood mood) {
+        this.meditation = mood;
+    }
+
+    public MeditationSession meditation(Mood mood) {
+        this.setMeditation(mood);
         return this;
     }
 

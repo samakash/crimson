@@ -8,9 +8,15 @@
     -->
     <changeSet id="20230628024649-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="meditation_id"
+                                 baseTableName="rel_meditation__mood"
+                                 constraintName="fk_rel_meditation__mood__meditation_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="meditation"/>
+
         <addForeignKeyConstraint baseColumnNames="mood_id"
-                                 baseTableName="meditation"
-                                 constraintName="fk_meditation__mood_id"
+                                 baseTableName="rel_meditation__mood"
+                                 constraintName="fk_rel_meditation__mood__mood_id"
                                  referencedColumnNames="id"
                                  referencedTableName="mood"/>
     </changeSet>

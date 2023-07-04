@@ -31,6 +31,12 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityName": "mood",
+      "otherEntityRelationshipName": "meditation",
+      "relationshipName": "mood",
+      "relationshipType": "many-to-one"
+    },
+    {
       "otherEntityName": "event",
       "otherEntityRelationshipName": "meditation",
       "relationshipName": "event",

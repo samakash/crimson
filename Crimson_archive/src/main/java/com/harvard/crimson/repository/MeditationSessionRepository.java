@@ -30,16 +30,18 @@ public interface MeditationSessionRepository extends JpaRepository<MeditationSes
     }
 
     @Query(
-        value = "select distinct meditationSession from MeditationSession meditationSession left join fetch meditationSession.user",
+        value = "select distinct meditationSession from MeditationSession meditationSession left join fetch meditationSession.user left join fetch meditationSession.meditation",
         countQuery = "select count(distinct meditationSession) from MeditationSession meditationSession"
     )
     Page<MeditationSession> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct meditationSession from MeditationSession meditationSession left join fetch meditationSession.user")
+    @Query(
+        "select distinct meditationSession from MeditationSession meditationSession left join fetch meditationSession.user left join fetch meditationSession.meditation"
+    )
     List<MeditationSession> findAllWithToOneRelationships();
 
     @Query(
-        "select meditationSession from MeditationSession meditationSession left join fetch meditationSession.user where meditationSession.id =:id"
+        "select meditationSession from MeditationSession meditationSession left join fetch meditationSession.user left join fetch meditationSession.meditation where meditationSession.id =:id"
     )
     Optional<MeditationSession> findOneWithToOneRelationships(@Param("id") Long id);
 }

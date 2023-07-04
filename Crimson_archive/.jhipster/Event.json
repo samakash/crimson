@@ -30,7 +30,7 @@
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "Event",
-  "pagination": "no",
+  "pagination": "infinite-scroll",
   "readOnly": false,
   "relationships": [
     {

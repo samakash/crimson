@@ -15,8 +15,15 @@
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "Mood",
-  "pagination": "no",
+  "pagination": "infinite-scroll",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "meditation",
+      "otherEntityRelationshipName": "mood",
+      "relationshipName": "meditation",
+      "relationshipType": "one-to-many"
+    }
+  ],
   "service": "no"
 }
