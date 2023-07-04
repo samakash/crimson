@@ -1,0 +1,22 @@
+{
+  "applications": "*",
+  "changelogDate": "20230628024651",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "mood",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength"],
+      "fieldValidateRulesMinlength": "2"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Mood",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

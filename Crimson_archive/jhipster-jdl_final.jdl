@@ -1,0 +1,54 @@
+entity Meditation {
+  name String required minlength(3)
+  content TextBlob required
+  videoUrl String required minlength(2)
+}
+
+entity MeditationSession {
+  title String required
+  description TextBlob required
+  date Instant required
+}
+
+entity Mood {
+  name String required minlength(2)
+}
+
+entity Contact {
+  info String required minlength(2)
+  content TextBlob required
+}
+
+entity Referal {
+  email String required minlength(2)
+  message TextBlob
+}
+
+entity Event {
+  title String required
+  description TextBlob required
+  date Instant required
+  location String required
+}
+
+entity LocalResource {
+	title String required
+    type String required
+    location String required
+    description TextBlob required
+    imageURL String 
+}
+
+relationship ManyToOne {
+  MeditationSession{user(login)} to User
+  MeditationSession{meditation(name)} to Mood
+  Event to Meditation
+  Referal{user(login)} to User
+  Mood{meditation(name)} to Meditation
+}
+
+relationship ManyToMany {
+  Event to User
+}
+
+paginate MeditationSession, Event, Mood with infinite-scroll
