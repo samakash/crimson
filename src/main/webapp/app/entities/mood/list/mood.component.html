@@ -1,95 +1,244 @@
-<div>
-  <h2 id="page-heading" data-cy="MoodHeading">
-    <span>Moods</span>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crimson-Calm Mood Input</title>
+    <!--  <link rel="stylesheet" href="mood.css">-->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    <div class="d-flex justify-content-end" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh list</span>
-      </button>
+      body {
+        font-family: 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-mood"
-        [routerLink]="['/mood/new']"
-        *jhiHasAnyAuthority="'ROLE_ADMIN'"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Create a new Mood </span>
-      </button>
-    </div>
-  </h2>
+      a {
+        text-decoration: none;
+        color: #f5f5f5;
+      }
 
-  <jhi-alert-error></jhi-alert-error>
+      h1,
+      h2,
+      h3 {
+        margin-bottom: 1.5rem;
+      }
 
-  <jhi-alert></jhi-alert>
+      .header {
+        background: linear-gradient(135deg, #990000, #440000);
+        padding: 1.5rem;
+        color: #fff;
+        position: absolute;
+        width: 100%;
+        top: 0;
+      }
 
-  <div class="alert alert-warning" id="no-result" *ngIf="moods?.length === 0">
-    <span>No Moods found</span>
-  </div>
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-  <div class="table-responsive table-entities" id="entities" *ngIf="moods && moods.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="name">
-            <div class="d-flex">
-              <span>Moods</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="meditation.name">
-            <div class="d-flex">
-              <span>Meditation</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody
-        infinite-scroll
-        (scrolled)="loadPage(page + 1)"
-        [infiniteScrollDisabled]="page - 1 >= links['last']"
-        [infiniteScrollDistance]="0"
-      >
-        <tr *ngFor="let mood of moods; trackBy: trackId" data-cy="entityTable">
-          <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <a [routerLink]="['/mood', mood.id, 'view']">{{ mood.id }}</a>
-          </td>
-          <td>{{ mood.name }}</td>
-          <td>
-            <div *ngIf="mood.meditation">
-              <a [routerLink]="['/meditation', mood.meditation.id, 'view']">{{ mood.meditation.name }}</a>
-            </div>
-          </td>
-          <td class="text-end" *jhiHasAnyAuthority="'ROLE_ADMIN'">
-            <div class="btn-group">
-              <button type="submit" [routerLink]="['/mood', mood.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
+      .logo img {
+        height: 100px;
+        width: 200px;
+      }
+
+      .nav-menu {
+        list-style: none;
+        display: flex;
+      }
+
+      .nav-menu li {
+        margin-left: 1.5rem;
+      }
+
+      #mood-selection {
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .cta {
+        display: inline-block;
+        background-color: #660000;
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        margin-top: 1.5rem;
+        transition: background-color 0.2s;
+      }
+
+      .cta:hover {
+        background-color: #440000;
+      }
+
+      .emoji-container {
+        transform: scale(3.5);
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+      }
+
+      .footer {
+        background-color: #f5f5f5;
+        padding: 1.5rem;
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+      }
+
+      .emoji.selected {
+        transform: scale(1.3);
+        box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+      }
+
+      @media screen and (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav">
+        <div class="logo">
+          <img src="logo.png" alt="Crimson-Calm Logo" />
+        </div>
+        <ul class="nav-menu">
+          <li><a routerLink="/">Home</a></li>
+          <li><a routerLink="/contact/new">Contact Us</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section id="mood-selection">
+        <div>
+          <h1 id="page-heading" data-cy="MoodHeading">
+            <span>Select Your Mood Now</span>
+
+            <div class="d-flex justify-content-end" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+              <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+                <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+                <span>Refresh list</span>
               </button>
 
-              <button type="submit" [routerLink]="['/mood', mood.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
-              </button>
-
-              <button type="submit" (click)="delete(mood)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
+              <button
+                id="jh-create-entity"
+                data-cy="entityCreateButton"
+                class="btn btn-primary jh-create-entity create-mood"
+                [routerLink]="['/mood/new']"
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+              >
+                <fa-icon icon="plus"></fa-icon>
+                <span> Create a new Mood </span>
               </button>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+          </h1>
+
+          <jhi-alert-error></jhi-alert-error>
+
+          <jhi-alert></jhi-alert>
+
+          <div class="alert alert-warning" id="no-result" *ngIf="moods?.length === 0">
+            <span>No Moods found</span>
+          </div>
+
+          <div class="table-responsive table-entities" id="entities" *ngIf="moods && moods.length > 0">
+            <table class="table table-borderless" aria-describedby="page-heading">
+              <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+                  <th scope="col" jhiSortBy="id" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                    <div class="d-flex">
+                      <span>ID</span>
+                      <fa-icon class="p-1" icon="sort"></fa-icon>
+                    </div>
+                  </th>
+                  <th scope="col" jhiSortBy="name" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                    <div class="d-flex">
+                      <span>Moods</span>
+                      <fa-icon class="p-1" icon="sort"></fa-icon>
+                    </div>
+                  </th>
+                  <th scope="col" jhiSortBy="meditation.name" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                    <div class="d-flex">
+                      <span>Meditation</span>
+                      <fa-icon class="p-1" icon="sort"></fa-icon>
+                    </div>
+                  </th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody
+                infinite-scroll
+                (scrolled)="loadPage(page + 1)"
+                [infiniteScrollDisabled]="page - 1 >= links['last']"
+                [infiniteScrollDistance]="0"
+              >
+                <tr *ngFor="let mood of moods; trackBy: trackId" data-cy="entityTable">
+                  <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                    <a [routerLink]="['/mood', mood.id, 'view']">{{ mood.id }}</a>
+                  </td>
+                  <!--            <td>{{ mood.name }}</td>-->
+                  <td
+                    *ngIf="mood.meditation"
+                    [routerLink]="['/meditation', mood.meditation.id, 'view']"
+                    onMouseOver="this.style.color='#0F0'"
+                    onMouseOut="this.style.color='#DC143C'"
+                    style="color: crimson; font-size: 46px; cursor: pointer; background-color: white"
+                  >
+                    {{ mood.name }}
+                  </td>
+                  <!--            <div *ngIf="mood.meditation">-->
+                  <!--              <a [routerLink]="['/meditation', mood.meditation.id, 'view']">{{ mood.name }}</a>-->
+                  <!--            </div>-->
+                  <td class="text-end" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                    <div class="btn-group">
+                      <button
+                        type="submit"
+                        [routerLink]="['/mood', mood.id, 'view']"
+                        class="btn btn-info btn-sm"
+                        data-cy="entityDetailsButton"
+                      >
+                        <fa-icon icon="eye"></fa-icon>
+                        <span class="d-none d-md-inline">View</span>
+                      </button>
+
+                      <button
+                        type="submit"
+                        [routerLink]="['/mood', mood.id, 'edit']"
+                        class="btn btn-primary btn-sm"
+                        data-cy="entityEditButton"
+                      >
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                        <span class="d-none d-md-inline">Edit</span>
+                      </button>
+
+                      <button type="submit" (click)="delete(mood)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                        <fa-icon icon="times"></fa-icon>
+                        <span class="d-none d-md-inline">Delete</span>
+                      </button>
+                    </div>
+                  </td>
+                  <br />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

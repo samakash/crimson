@@ -63,4 +63,23 @@ class MeditationSessionTest {
         meditationSession1.setMeditation(mood1);
         assertThat(meditationSession1.getMeditation()).isEqualTo(mood1);
     }
+
+    @Test
+    void verifySessionWithoutMoodMeditation() throws Exception {
+        MeditationSession meditationSession1 = new MeditationSession();
+        Mood mood1 = new Mood();
+        meditationSession1.setMeditation(mood1);
+        assertThat(meditationSession1.getMeditation()).isEqualTo(mood1);
+    }
+
+    @Test
+    void verifySessionWithMoodMeditation() throws Exception {
+        MeditationSession meditationSession1 = new MeditationSession();
+        Meditation meditation1 = new Meditation();
+        Mood mood1 = new Mood();
+        mood1.setName("mood1");
+        mood1.setMeditation(meditation1);
+        meditationSession1.setMeditation(mood1);
+        assertThat(meditationSession1.getMeditation().getName()).isEqualTo("mood1");
+    }
 }
