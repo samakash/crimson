@@ -629,7 +629,8 @@ Yesterday found meditation videos which could be associated with varying emotion
 Today plans to work on presentation material for our stakeholders.
 She had no impediments.
 
-![Screenshot 2023-07-06 at 11 37 34 AM (1)](https://github.com/samakash/crimson/assets/25805336/65a283ad-2171-46e1-838e-d2827c0b4a32)
+![Screenshot 2023-07-06 at 11 37 28 AM (2)](https://github.com/samakash/crimson/assets/25805336/e0cc16ea-bb1b-4a60-80a3-fd03ea6a3e68)
+
 
 ----------
 07/06 Thursday:
