@@ -73,4 +73,10 @@ class MeditationTest {
         meditation1.setEvents(set);
         assertThat(meditation1.getEvents()).isEqualTo(set);
     }
+
+    @Test
+    void verifyMeditationVideoUrlEmpty() throws Exception {
+        Meditation meditation1 = new Meditation();
+        assertThat(meditation1.getVideoUrl()).isEqualTo(null);
+    }
 }
