@@ -11,6 +11,7 @@
 - **Sam Akash (Developer)** 
 - **Kamsi Mbanefo(Developer)**
 
+## App Link in Production: https://crimson-calm-app-7dnb8.ondigitalocean.app/
 
 # <font color="red"> Project Name: Crimson-Calm </font>
 
@@ -543,6 +544,9 @@ This would allow us to push new meditation content onto the app for our users wi
 
 # Srcum Board Link (Kanban Board):
 https://trello.com/b/jLQWHw8P/crimson-calm-aliens-2023
+
+## Sprint 3 User Stories Impelmented in Production: 
+https://crimson-calm-app-7dnb8.ondigitalocean.app/
 
 # Sprint Burndown Chart:
 ![Screenshot 2023-07-06 at 11 37 16 AM](https://github.com/samakash/crimson/assets/25805336/89db0b54-b684-4a53-939f-84cf42351ef8)
