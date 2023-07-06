@@ -702,6 +702,12 @@ INFO] -------------------------------------------------------
 - CI/CD using Github Actions: https://github.com/samakash/crimson/actions
 
 - Github Actions CI config that works whenever there is a new push to Main: https://github.com/samakash/crimson/actions/workflows/deploy_to_container_after_push.yml
+
+#### CI/CD Steps Explaination:
+ 1. After a new push to main brnach, Github Action kicks off new the build
+ 2. Github Actions will setup environemnt variables, kickoff the tests, frontend build, backend build and packing the build to an image ready to deploy.   
+ 3. Wonce the build is ready and packed, it will push a new image to docker hub at https://hub.docker.com/repository/docker/samerakash/crimson/general
+ 4. Digital Ocean app configs points to the dockerhub latest push for deployment.
   
 - Evidence of Test before build (Click on the step Build with Maven): https://github.com/samakash/crimson/actions/runs/5471700042/jobs/9963101691
   
